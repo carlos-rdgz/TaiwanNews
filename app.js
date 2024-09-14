@@ -1,51 +1,36 @@
-// Importar Express y otras dependencias necesarias
-const express = require('express');
-const app = express();
-const fetch = require('node-fetch');
-
-// Servir archivos estáticos desde la carpeta 'public'
-app.use(express.static('public'));
-
-// API Key de Currents API
 const apiKey = 'V0sKvIkV-EZy7BuaY-bd38URbq9O3ldHOLgyhk4ISfGcR-gR';
+const apiUrl = 'https://api.currentsapi.services/v1/latest-news?apiKey=' + apiKey;
 
-// Función para obtener noticias por categoría
-async function getNewsByCategory(category) {
-    const url = `https://api.currentsapi.services/v1/latest-news?apiKey=${apiKey}&category=${category}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.news;
+async function fetchNews() {
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        const articles = data.news;
+        const newsContainer = document.getElementById('news-container');
+
+        newsContainer.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevas noticias
+
+        if (articles.length === 0) {
+            newsContainer.innerHTML = '<p>No news available at the moment.</p>';
+            return;
+        }
+
+        articles.forEach(article => {
+            const newsArticle = document.createElement('article');
+            newsArticle.className = 'news-article';
+            newsArticle.innerHTML = `
+                <img src="${article.image || 'https://via.placeholder.com/300x200'}" alt="News Image" class="news-image">
+                <h2>${article.title}</h2>
+                <p>${article.description || 'No description available.'}</p>
+                <a href="${article.url}" class="read-more" target="_blank">Read more</a>
+            `;
+            newsContainer.appendChild(newsArticle);
+        });
+    } catch (error) {
+        console.error('Error fetching news:', error);
+        const newsContainer = document.getElementById('news-container');
+        newsContainer.innerHTML = '<p>Error loading news. Please try again later.</p>';
+    }
 }
 
-// Ruta para la página principal
-app.get('/', async (req, res) => {
-    const news = await getNewsByCategory('general');
-    res.render('index', { news });
-});
-
-// Ruta para la página de deportes
-app.get('/sports', async (req, res) => {
-    const news = await getNewsByCategory('sports');
-    res.render('sports', { news });
-});
-
-// Ruta para la página de tecnología
-app.get('/technology', async (req, res) => {
-    const news = await getNewsByCategory('technology');
-    res.render('technology', { news });
-});
-
-// Ruta para la página de comida
-app.get('/food', async (req, res) => {
-    const news = await getNewsByCategory('food');
-    res.render('food', { news });
-});
-
-// Configurar el motor de plantillas (EJS)
-app.set('view engine', 'ejs');
-
-// Iniciar el servidor en el puerto 3000
-app.listen(3000, () => {
-    console.log('Servidor escuchando en el puerto 3000');
-});
-
+document.addEventListener('DOMContentLoaded', fetchNews);
