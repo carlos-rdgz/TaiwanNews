@@ -3,46 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taiwan News</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Verifica que la ruta sea correcta -->
+    <title>News Portal - Home</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script defer src="app.js"></script>
 </head>
 <body>
     <header>
-        <div class="header-content">
-            <img src="logo.png" alt="News Portal Logo" class="header-logo">
-            <h1>Taiwan News</h1>
-        </div>
+        <h1>News Portal</h1>
         <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="sports.html">Sports</a></li>
-                <li><a href="food.html">Food</a></li>
-                <li><a href="technology.html">Technology</a></li>
-                <!-- Añade más enlaces a otras categorías si es necesario -->
-            </ul>
+            <a href="index.html">Home</a>
+            <a href="sports.html">Sports</a>
+            <a href="technology.html">Technology</a>
+            <a href="food.html">Food</a>
         </nav>
     </header>
     <main>
-        <div id="news-container" class="news-container">
-            <!-- Ejemplo de noticia -->
-            <article class="news-article">
-                <img src="https://via.placeholder.com/300x200" alt="Example Image" class="news-image">
-                <h2>Example News Title</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel dolor ligula. Sed vitae justo quis odio vestibulum dignissim. Phasellus non libero urna.</p>
-                <a href="#" class="read-more">Read more</a>
-            </article>
-            <!-- Añadir más noticias de ejemplo si es necesario -->
+        <h2>Latest General News</h2>
+        <div class="news-container" id="newsContainer">
+            <!-- Noticias generales se cargarán aquí automáticamente -->
         </div>
     </main>
     <footer>
-        <p>&copy; 2024 Taiwan News</p>
+        <p>&copy; 2024 News Portal</p>
     </footer>
-    <script src="app.js"></script>
 </body>
 </html>
-
-
-
-
-
-
